@@ -4,7 +4,7 @@ async function createUser(req, res) {
   const { name, email, phoneNo, age } = req.body;
 
   try {
-    if (!name || !email) {
+    if (!name) {
       return res.status(400).json({ error: "Invalid user data" });
     }
 
