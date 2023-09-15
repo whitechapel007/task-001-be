@@ -5,12 +5,6 @@ const personSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
-  email: {
-    type: String,
-    index: true,
-  },
-  age: String,
-  phoneNo: String,
 });
 
 module.exports = mongoose.model("Person", personSchema);

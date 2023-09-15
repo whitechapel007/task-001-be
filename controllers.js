@@ -1,14 +1,15 @@
 const Person = require("./model");
 
 async function createUser(req, res) {
-  const { name, email, phoneNo, age } = req.body;
+  const { name } = req.body;
+  console.log(name);
 
   try {
     if (!name) {
       return res.status(400).json({ error: "Invalid user data" });
     }
 
-    const person = await Person.create({ name, age, phoneNo, email });
+    const person = await Person.create({ name });
 
     res.status(201).json(person);
   } catch (error) {
@@ -23,9 +24,9 @@ async function createUser(req, res) {
 }
 
 async function getUser(req, res) {
-  const { name } = req.params;
+  const { user_id } = req.params;
   try {
-    const person = await Person.findOne({ name });
+    const person = await Person.findOne({ _id: user_id });
     if (!person) {
       return res.status(404).json({ error: "Person not found" });
     }
@@ -38,14 +39,14 @@ async function getUser(req, res) {
 }
 
 async function updateUser(req, res) {
-  const { name } = req.params;
+  const { user_id } = req.params;
 
-  const { age, phoneNo, email } = req.body;
+  const { name } = req.body;
 
   try {
     const person = await Person.findByIdAndUpdate(
+      { _id: user_id },
       { name },
-      { age, phoneNo, email },
       { new: true }
     );
 
@@ -61,10 +62,10 @@ async function updateUser(req, res) {
 }
 
 async function deleteUser(req, res) {
-  const { name } = req.params;
+  const { user_id } = req.params;
 
   try {
-    const removedPerson = await Person.findOneAndDelete({ name });
+    const removedPerson = await Person.findOneAndDelete({ _id: user_id });
     if (!removedPerson) {
       return res.status(404).json({ error: "Person not found" });
     }
